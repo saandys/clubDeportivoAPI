@@ -9,7 +9,10 @@ class BindingInterfaceServiceProvider extends ServiceProvider
 
     protected $interfaces = [
         \Src\Domain\Repositories\IUserRepository::class => \Src\Infrastructure\User\UserEloquentRepository::class,
+        \Src\Domain\Repositories\ISportRepository::class => \Src\Infrastructure\Sport\SportEloquentRepository::class,
+
     ];
+
     public function boot()
     {
       foreach ($this->interfaces as $interface => $class)

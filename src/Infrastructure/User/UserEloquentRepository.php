@@ -9,9 +9,9 @@ class UserEloquentRepository implements IUserRepository
 {
     public $eloquentModel;
 
-    function __construct()
+    function __construct($model = new User)
     {
-        $this->eloquentModel = new User;
+        $this->eloquentModel = $model;
     }
 
     public function find(string $id): ?UserEntity

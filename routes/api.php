@@ -1,6 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Src\Infrastructure\Controllers\User\UserController;
+use Src\Infrastructure\Controllers\Sport\SportController;
+
+
+// User
 
 Route::get('/', function () {
     return response()->json(['message' => 'Welcome to the API']);
@@ -18,4 +22,14 @@ Route::middleware(['auth:sanctum'])->resource('user', UserController::class)->na
     'show' => 'masters.user.show',
     'store' => 'masters.user.store',
     'update' => 'masters.user.update'
+]);
+
+
+// Sport
+
+Route::resource('sport', SportController::class)->names([
+    'show' => 'masters.sport.show',
+    'store' => 'masters.sport.store',
+    'update' => 'masters.sport.update',
+    'destroy' => 'masters.sport.destroy',
 ]);
