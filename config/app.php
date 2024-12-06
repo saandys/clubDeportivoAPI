@@ -1,5 +1,8 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -122,5 +125,14 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'providers' => ServiceProvider::defaultProviders()->merge([
+
+        App\Providers\AppServiceProvider::class,
+        // bindear las interfaces DDD a sus respectivas clases
+        App\Providers\BindingInterfaceServiceProvider::class,
+
+    ])->toArray(),
+
 
 ];
