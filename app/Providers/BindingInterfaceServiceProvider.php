@@ -10,6 +10,7 @@ class BindingInterfaceServiceProvider extends ServiceProvider
     protected $interfaces = [
         \Src\Domain\Repositories\IUserRepository::class => \Src\Infrastructure\User\UserEloquentRepository::class,
         \Src\Domain\Repositories\ISportRepository::class => \Src\Infrastructure\Sport\SportEloquentRepository::class,
+        \Src\Domain\Repositories\ICourtRepository::class => \Src\Infrastructure\Court\CourtEloquentRepository::class,
 
     ];
 

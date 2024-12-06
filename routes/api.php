@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Src\Infrastructure\Controllers\User\UserController;
+use Src\Infrastructure\Controllers\Court\CourtController;
 use Src\Infrastructure\Controllers\Sport\SportController;
 
 
@@ -32,4 +33,14 @@ Route::resource('sport', SportController::class)->names([
     'store' => 'masters.sport.store',
     'update' => 'masters.sport.update',
     'destroy' => 'masters.sport.destroy',
+]);
+
+
+// Court
+
+Route::resource('court', CourtController::class)->names([
+    'show' => 'masters.court.show',
+    'store' => 'masters.court.store',
+    'update' => 'masters.court.update',
+    'destroy' => 'masters.court.destroy',
 ]);
