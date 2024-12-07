@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use Src\Infrastructure\Controllers\User\UserController;
 use Src\Infrastructure\Controllers\Court\CourtController;
 use Src\Infrastructure\Controllers\Sport\SportController;
+use Src\Infrastructure\Controllers\Member\MemberController;
 
 
 // User
@@ -43,4 +44,14 @@ Route::resource('court', CourtController::class)->names([
     'store' => 'masters.court.store',
     'update' => 'masters.court.update',
     'destroy' => 'masters.court.destroy',
+]);
+
+
+// Member
+
+Route::resource('member', MemberController::class)->names([
+    'show' => 'masters.member.show',
+    'store' => 'masters.member.store',
+    'update' => 'masters.member.update',
+    'destroy' => 'masters.member.destroy',
 ]);
