@@ -6,62 +6,65 @@ use Src\Infrastructure\Controllers\Sport\SportController;
 use Src\Infrastructure\Controllers\Member\MemberController;
 use Src\Infrastructure\Controllers\Reservation\ReservationController;
 
-
-// User
-
 Route::get('/', function () {
     return response()->json(['message' => 'Welcome to the API']);
 });
 
+// User
 Route::post('register', [UserController::class, 'register'])->name('auth.register');
-Route::get('login/{user}', [UserController::class, 'login'])->name('auth.login');
-Route::post('user/update/{user}', [UserController::class, 'update'])->name('user.update');
+Route::post('login', [UserController::class, 'login'])->name('auth.login');
 
-Route::delete('user/delete/{user}', [UserController::class, 'delete'])->name('user.delete');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::post('user/update/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('user/delete/{user}', [UserController::class, 'delete'])->name('user.delete');
+
+});
+
 
 Route::middleware(['auth:sanctum'])->resource('user', UserController::class)->names([
 
-    'index' => 'masters.user.index',
-    'show' => 'masters.user.show',
-    'store' => 'masters.user.store',
-    'update' => 'masters.user.update'
+    'index' => 'user.index',
+    'show' => 'user.show',
+    'store' => 'user.store',
+    'update' => 'user.update'
 ]);
 
 
 // Sport
 
-Route::resource('sport', SportController::class)->names([
-    'show' => 'masters.sport.show',
-    'store' => 'masters.sport.store',
-    'update' => 'masters.sport.update',
-    'destroy' => 'masters.sport.destroy',
+Route::middleware(['auth:sanctum'])->resource('sport', SportController::class)->names([
+    'show' => 'sport.show',
+    'store' => 'sport.store',
+    'update' => 'sport.update',
+    'destroy' => 'sport.destroy',
 ]);
 
 
 // Court
-Route::get('court/free', [CourtController::class, 'getAvailableCourts'])->name('court.getAvailableCourts');
+Route::middleware(['auth:sanctum'])->get('court/free', [CourtController::class, 'getAvailableCourts'])->name('court.getAvailableCourts');
 
-Route::resource('court', CourtController::class)->names([
-    'show' => 'masters.court.show',
-    'store' => 'masters.court.store',
-    'update' => 'masters.court.update',
-    'destroy' => 'masters.court.destroy',
+Route::middleware(['auth:sanctum'])->resource('court', CourtController::class)->names([
+    'show' => 'court.show',
+    'store' => 'court.store',
+    'update' => 'court.update',
+    'destroy' => 'court.destroy',
 ]);
 
 
 // Member
 
-Route::resource('member', MemberController::class)->names([
-    'show' => 'masters.member.show',
-    'store' => 'masters.member.store',
-    'update' => 'masters.member.update',
-    'destroy' => 'masters.member.destroy',
+Route::middleware(['auth:sanctum'])->resource('member', MemberController::class)->names([
+    'show' => 'member.show',
+    'store' => 'member.store',
+    'update' => 'member.update',
+    'destroy' => 'member.destroy',
 ]);
 
 // Reservation
-Route::get('reservation/day/', [ReservationController::class, 'indexDay'])->name('reservation.indexDay');
+Route::middleware(['auth:sanctum'])->get('reservation/day', [ReservationController::class, 'indexDay'])->name('reservation.indexDay');
 
-Route::resource('reservation', ReservationController::class)->names([
+Route::middleware(['auth:sanctum'])->resource('reservation', ReservationController::class)->names([
     'show' => 'reservation.show',
     'store' => 'reservation.store',
     'update' => 'reservation.update',

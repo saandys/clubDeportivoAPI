@@ -20,13 +20,14 @@ class UserEloquentRepository implements IUserRepository
         if(!$user){
             return null;
         }
+
         // Return Domain User model
         return new UserEntity(
             $user->name,
             $user->email,
-            $user->email_verified_at,
+            $user->email_verified_at ?? '',
             $user->password,
-            $user->remember_token
+            $user->remember_token  ?? ''
         );
     }
 
@@ -62,5 +63,11 @@ class UserEloquentRepository implements IUserRepository
         $userToUpdate
             ->findOrFail($id)
             ->update($data);
+    }
+
+    public function login(string $email): User
+    {
+        return $this->eloquentModel->where('email', $email)->first();
+
     }
 }

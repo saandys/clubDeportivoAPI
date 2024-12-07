@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreUserRequest extends FormRequest
+class LoginUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,14 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users', 'email'), // Verifica que el email sea único
+                'exists:users,email', // Verifica que el email sea único
             ],
             'password' => 'required|min:6',
-            'name' => 'required|string|max:100',
         ];
     }
 

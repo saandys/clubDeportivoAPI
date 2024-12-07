@@ -7,7 +7,9 @@ use Illuminate\Routing\Controller;
 use App\Http\Resources\UserResource;
 use Src\Application\User\ShowUserUseCase;
 use Src\Application\User\IndexUserUseCase;
+use Src\Application\User\LoginUserUseCase;
 use Src\Application\User\StoreUserUseCase;
+use App\Http\Request\User\LoginUserRequest;
 use App\Http\Request\User\StoreUserRequest;
 use Src\Application\User\UpdateUserUseCase;
 use App\Http\Request\User\UpdateUserRequest;
@@ -50,18 +52,19 @@ class UserController extends Controller
 
         return response()->json(['result' => 'User created'], 200);
     }
-    public function login(string $id)
+    public function login(LoginUserRequest $request)
     {
         try{
-            $user = new UserResource($this->loginUserUseCase->execute(
-                $id
-            ));
+            $data = $this->loginUserUseCase->execute(
+            $request->input('email'),
+            $request->input('password')
+            );
         } catch (NotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
 
 
-        return response()->json(['result' => 'User login', 'data' => $user], 200);
+        return response()->json([$data], 200);
     }
 
     public function show(string $id)
@@ -75,7 +78,7 @@ class UserController extends Controller
         }
 
 
-        return response()->json(['result' => 'User login', 'data' => $user], 200);
+        return response()->json(['result' => 'User ', 'data' => $user], 200);
     }
 
     public function delete(string $id)
