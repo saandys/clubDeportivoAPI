@@ -52,7 +52,7 @@ class ReservationController extends Controller
                 $request->input('court_id'),
             );
 
-            return response()->json(['result' => 'Reservation created']);
+            return response()->json(['result' => 'Reservation created'], 200);
         } catch (CourtAlreadyBookedException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         } catch (MemberAlreadyHasReservationException $e) {
@@ -75,7 +75,7 @@ class ReservationController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Reservation login', 'data' => $reservation]);
+        return response()->json(['result' => 'Reservation login', 'data' => $reservation], 200);
     }
 
     public function destroy(string $id)
@@ -84,7 +84,7 @@ class ReservationController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Reservation deleted']);
+        return response()->json(['result' => 'Reservation deleted'], 200);
     }
 
     public function update(UpdateReservationRequest $request)
@@ -99,7 +99,7 @@ class ReservationController extends Controller
                 $request->input('court_id'),
             );
 
-            return response()->json(['result' => 'Reservation created']);
+            return response()->json(['result' => 'Reservation created'], 200);
         } catch (CourtAlreadyBookedException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         } catch (MemberAlreadyHasReservationException $e) {
@@ -123,6 +123,6 @@ class ReservationController extends Controller
         );
 
         return response()->json(['result' => 'Reservation updated',
-        'data' => $data]);
+        'data' => $data], 200);
     }
 }

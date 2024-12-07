@@ -48,7 +48,7 @@ class UserController extends Controller
             $request->input('password')
         );
 
-        return response()->json(['result' => 'User created']);
+        return response()->json(['result' => 'User created'], 200);
     }
 
     public function login(string $id)
@@ -57,7 +57,7 @@ class UserController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'User login', 'data' => $user]);
+        return response()->json(['result' => 'User login', 'data' => $user], 200);
     }
 
     public function delete(string $id)
@@ -66,7 +66,7 @@ class UserController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'User deleted']);
+        return response()->json(['result' => 'User deleted'], 200);
     }
 
     public function update(UpdateUserRequest $request)
@@ -78,6 +78,6 @@ class UserController extends Controller
             $request->input('password')
         );
 
-        return response()->json(['result' => 'User updated']);
+        return response()->json(['result' => 'User updated'], 200);
     }
 }

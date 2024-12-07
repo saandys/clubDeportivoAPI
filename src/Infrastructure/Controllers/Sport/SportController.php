@@ -47,7 +47,7 @@ class SportController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Sport login', 'data' => $sport]);
+        return response()->json(['result' => 'Sport login', 'data' => $sport], 200);
     }
 
     public function destroy(string $id)
@@ -56,7 +56,7 @@ class SportController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Sport deleted']);
+        return response()->json(['result' => 'Sport deleted'], 200);
     }
 
     public function update(UpdateSportRequest $request)
@@ -66,6 +66,6 @@ class SportController extends Controller
             $request->input('name'),
         );
 
-        return response()->json(['result' => 'Sport updated']);
+        return response()->json(['result' => 'Sport updated'], 200);
     }
 }

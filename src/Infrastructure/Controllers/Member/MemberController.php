@@ -50,7 +50,7 @@ class MemberController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Member show', 'data' => $member]);
+        return response()->json(['result' => 'Member show', 'data' => $member], 200);
     }
 
     public function destroy(string $id)
@@ -59,7 +59,7 @@ class MemberController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Member deleted']);
+        return response()->json(['result' => 'Member deleted'], 200);
     }
 
     public function update(UpdateMemberRequest $request)
@@ -71,6 +71,6 @@ class MemberController extends Controller
             $request->input('phone')
         );
 
-        return response()->json(['result' => 'Member updated']);
+        return response()->json(['result' => 'Member updated'], 200);
     }
 }

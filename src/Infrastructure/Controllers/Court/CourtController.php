@@ -45,7 +45,7 @@ class CourtController extends Controller
             $request->input('sport_id'),
         );
 
-        return response()->json(['result' => 'Court created']);
+        return response()->json(['result' => 'Court created'], 200);
     }
 
     public function show(string $id)
@@ -54,7 +54,7 @@ class CourtController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Court login', 'data' => $court]);
+        return response()->json(['result' => 'Court login', 'data' => $court], 200);
     }
 
     public function destroy(string $id)
@@ -63,7 +63,7 @@ class CourtController extends Controller
             $id
         ));
 
-        return response()->json(['result' => 'Court deleted']);
+        return response()->json(['result' => 'Court deleted'], 200);
     }
 
     public function update(UpdateCourtRequest $request)
@@ -74,7 +74,7 @@ class CourtController extends Controller
             $request->input('sport_id'),
         );
 
-        return response()->json(['result' => 'Court updated']);
+        return response()->json(['result' => 'Court updated'], 200);
     }
 
     public function getAvailableCourts(IndexCourtRequest $request)
