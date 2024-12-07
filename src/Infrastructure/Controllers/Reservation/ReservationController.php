@@ -91,16 +91,31 @@ class ReservationController extends Controller
 
    public function update(UpdateReservationRequest $request)
    {
-        $this->updateReservationUseCase->execute(
-            $request->input('id'),
-            $request->input('date'),
-            $request->input('start_time'),
-            $request->input('end_time'),
-            $request->input('member_id'),
-            $request->input('court_id'),
-        );
+        try {
+            $this->updateReservationUseCase->execute(
+                $request->input('id'),
+                $request->input('date'),
+                $request->input('start_time'),
+                $request->input('end_time'),
+                $request->input('member_id'),
+                $request->input('court_id'),
+            );
 
-        return response()->json(['result' => 'Reservation updated']);
+            return response()->json(['result' => 'Reservation created']);
+        } catch (CourtAlreadyBookedException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (MemberAlreadyHasReservationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (MaxDailyReservationsExceededException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (HourExceedeedTime $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (MaxTimeBetweenHours $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (\Exception $e) {
+            // Manejar errores genéricos
+            return response()->json(['error' => 'Ha ocurrido un error inesperado.'], 500);
+        }
    }
 
    public function indexDay(IndexReservationRequest $request)

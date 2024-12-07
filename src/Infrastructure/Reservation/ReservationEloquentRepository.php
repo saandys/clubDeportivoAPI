@@ -98,7 +98,7 @@ class ReservationEloquentRepository implements IReservationRepository
         $reservations = $this->eloquentModel
         ::with(['member', 'court', 'court.sport'])
             ->where('date', $date)
-            ->get();
+            ->paginate(15);
 
             return $reservations;
     }

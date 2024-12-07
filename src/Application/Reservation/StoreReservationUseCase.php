@@ -37,7 +37,7 @@ final class StoreReservationUseCase
         $exist = $this->repository->verifyHourByMember($member_id, $date, $start_time);
         if($exist) throw new MemberAlreadyHasReservationException();
 
-        $user = ReservationEntity::create(
+        $reservation = ReservationEntity::create(
             $date,
          $start_time,
          $end_time,
@@ -45,7 +45,7 @@ final class StoreReservationUseCase
          $court_id,
            );
 
-        $this->repository->save($user);
+        $this->repository->save($reservation);
     }
 
     public function verifycorrectTime($start_time)

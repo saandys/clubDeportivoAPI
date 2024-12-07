@@ -20,4 +20,8 @@ class Court extends Model
     {
         return $this->belongsTo(Sport::class);
     }
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

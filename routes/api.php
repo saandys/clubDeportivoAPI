@@ -39,6 +39,7 @@ Route::resource('sport', SportController::class)->names([
 
 
 // Court
+Route::get('court/free', [CourtController::class, 'getAvailableCourts'])->name('court.getAvailableCourts');
 
 Route::resource('court', CourtController::class)->names([
     'show' => 'masters.court.show',
