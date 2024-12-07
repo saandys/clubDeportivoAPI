@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Request\Member;
+namespace App\Http\Request\Court;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreMemberRequest extends FormRequest
+class IndexCourtRequest extends FormRequest
 {
     /**
-     * Determine if the member is authorized to make this request.
+     * Determine if the reservation is authorized to make this request.
      */
     public function authorize(): bool
     {
@@ -24,15 +24,10 @@ class StoreMemberRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('members', 'email'), // Verifica que el email sea único
-            ],
-            'name' => 'required|string|max:100',
-            'phone' => 'required|numeric|digits_between:8,15',
+            'date' => 'required|date',
+            'sport_id' => 'required|exists:sports,id',
+            'member_id' => 'required|exists:members,id',
         ];
     }
 
@@ -41,15 +36,15 @@ class StoreMemberRequest extends FormRequest
         //dd('Validation passed', $this->all());
     }
 
-    // Mensajes de error personalizados (opcional)
-    public function messages()
+    public function messages(): array
     {
         return [
-            'email.unique' => 'El correo ya está registrado.',
-            'email.required' => 'El correo es obligatorio.',
-            'phone.required' => 'La contraseña es obligatoria.',
-            'name.required' => 'El nombre es obligatorio.',
-            'name.max' => 'El nombre debe tener máximo 100 caracteres.',
+            'date.required' => 'La fecha es obligatoria.',
+            'date.date' => 'La fecha debe ser válida.',
+            'sport_id.required' => 'El ID del deporte es obligatorio.',
+            'sport_id.exists' => 'El deporte seleccionado no existe.',
+            'member_id.required' => 'El ID del miembro es obligatorio.',
+            'member_id.exists' => 'El miembro seleccionado no existe.',
         ];
     }
 
