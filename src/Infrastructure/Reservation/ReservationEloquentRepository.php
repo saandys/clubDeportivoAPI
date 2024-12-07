@@ -1,5 +1,4 @@
-<?php
-namespace Src\Infrastructure\Reservation;
+<?php namespace Src\Infrastructure\Reservation;
 
 use App\Models\Reservation;
 use Src\Domain\Entities\ReservationEntity;
@@ -72,7 +71,9 @@ class ReservationEloquentRepository implements IReservationRepository
             ->where('start_time', $start_time)
             ->where('date', $date)->first();
 
-        if($reservation) return false;
+        if ($reservation) {
+            return false;
+        }
         return true;
     }
 
@@ -89,7 +90,9 @@ class ReservationEloquentRepository implements IReservationRepository
             ->where('date', $date)
             ->where('start_time', $start_time)->first();
 
-        if(!$exist) return false;
+        if (!$exist) {
+            return false;
+        }
         return true;
     }
 
@@ -102,5 +105,4 @@ class ReservationEloquentRepository implements IReservationRepository
 
             return $reservations;
     }
-
 }

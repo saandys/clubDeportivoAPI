@@ -19,5 +19,4 @@ class Sport extends Model
         'name',
 
     ];
-
 }

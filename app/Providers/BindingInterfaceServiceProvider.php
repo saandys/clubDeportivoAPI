@@ -18,8 +18,8 @@ class BindingInterfaceServiceProvider extends ServiceProvider
 
     public function boot()
     {
-      foreach ($this->interfaces as $interface => $class)
-        $this->app->bind($interface, $class);
+        foreach ($this->interfaces as $interface => $class) {
+            $this->app->bind($interface, $class);
+        }
     }
-
 }

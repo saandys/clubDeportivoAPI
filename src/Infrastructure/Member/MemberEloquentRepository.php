@@ -21,7 +21,7 @@ class MemberEloquentRepository implements IMemberRepository
         // Return Domain Member model
         return new MemberEntity(
             $member->name,
-           $member->email,
+            $member->email,
             $member->phone,
         );
     }
@@ -58,6 +58,4 @@ class MemberEloquentRepository implements IMemberRepository
             ->findOrFail($id)
             ->update($data);
     }
-
-
 }

@@ -15,8 +15,8 @@ final class IndexReservationUseCase
 
     public function execute($date)
     {
-       $reservations = $this->repository->getAllReservationsByDay($date);
+        $reservations = $this->repository->getAllReservationsByDay($date);
 
-       return $reservations->toArray();
+        return $reservations->toArray();
     }
 }

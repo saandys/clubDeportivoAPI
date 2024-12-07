@@ -18,11 +18,11 @@ final class StoreUserUseCase
     {
         $user = UserEntity::create(
             $name,
-           $email,
+            $email,
             '',
             $password,
             ''
-           );
+        );
 
         $this->repository->save($user);
     }

@@ -18,9 +18,9 @@ final class StoreMemberUseCase
     {
         $user = MemberEntity::create(
             $name,
-           $email,
+            $email,
             $phone,
-           );
+        );
 
         $this->repository->save($user);
     }

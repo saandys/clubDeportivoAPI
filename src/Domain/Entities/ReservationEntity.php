@@ -1,7 +1,8 @@
 <?php
 namespace Src\Domain\Entities;
 
-class ReservationEntity {
+class ReservationEntity
+{
 
     protected $id;
 
@@ -18,8 +19,7 @@ class ReservationEntity {
         string $end_time,
         string $member_id,
         string $court_id,
-    )
-    {
+    ) {
         $this->date = $date;
         $this->start_time = $start_time;
         $this->end_time = $end_time;
@@ -33,20 +33,19 @@ class ReservationEntity {
         string $end_time,
         string $member_id,
         string $court_id,
-    ): ReservationEntity
-    {
-        $reservation = new self( $date, $start_time, $end_time, $member_id, $court_id);
+    ): ReservationEntity {
+        $reservation = new self($date, $start_time, $end_time, $member_id, $court_id);
 
         return $reservation;
     }
 
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
     public function setId($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
 

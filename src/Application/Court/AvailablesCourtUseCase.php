@@ -20,10 +20,12 @@ final class AvailablesCourtUseCase
     public function execute($date, $member_id, $sport_id)
     {
         $numberReservations = $this->reservationRepository->getNumberReservationsByMember($member_id, $date);
-        if($numberReservations >= 3) throw new MaxDailyReservationsExceededException();
+        if ($numberReservations >= 3) {
+            throw new MaxDailyReservationsExceededException();
+        }
 
-       $availableReservations = $this->repository->findFreeCourts($date, $member_id, $sport_id);
+        $availableReservations = $this->repository->findFreeCourts($date, $member_id, $sport_id);
 
-       return $availableReservations;
+        return $availableReservations;
     }
 }

@@ -18,9 +18,9 @@ final class UpdateMemberUseCase
     {
         $user = MemberEntity::create(
             $name,
-           $email ?? '',
+            $email ?? '',
             $phone,
-           );
+        );
 
         $this->repository->update($id, $user);
     }

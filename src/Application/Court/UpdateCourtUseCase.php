@@ -19,7 +19,7 @@ final class UpdateCourtUseCase
         $court = CourtEntity::create(
             $name,
             $sport_id
-           );
+        );
 
         $this->repository->update($id, $court);
     }

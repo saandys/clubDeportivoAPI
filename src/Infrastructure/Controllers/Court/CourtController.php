@@ -30,46 +30,44 @@ class CourtController extends Controller
         UpdateCourtUseCase $updateCourtUseCase,
         DestroyCourtUseCase $destroyCourtUseCase,
         AvailablesCourtUseCase $availablesCourtUseCase
-        )
-    {
+    ) {
         $this->storeCourtUseCase = $storeCourtUseCase;
         $this->showCourtUseCase = $showCourtUseCase;
         $this->updateCourtUseCase = $updateCourtUseCase;
         $this->destroyCourtUseCase = $destroyCourtUseCase;
         $this->availablesCourtUseCase = $availablesCourtUseCase;
-
     }
 
-   public function store(StoreCourtRequest $request)
-   {
+    public function store(StoreCourtRequest $request)
+    {
         $this->storeCourtUseCase->execute(
             $request->input('name'),
             $request->input('sport_id'),
         );
 
         return response()->json(['result' => 'Court created']);
-   }
+    }
 
-   public function show(string $id)
-   {
+    public function show(string $id)
+    {
         $court = new CourtResource($this->showCourtUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Court login', 'data' => $court]);
-   }
+    }
 
-   public function destroy(string $id)
-   {
+    public function destroy(string $id)
+    {
         $court = new CourtResource($this->destroyCourtUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Court deleted']);
-   }
+    }
 
-   public function update(UpdateCourtRequest $request)
-   {
+    public function update(UpdateCourtRequest $request)
+    {
         $this->updateCourtUseCase->execute(
             $request->input('id'),
             $request->input('name'),
@@ -77,22 +75,20 @@ class CourtController extends Controller
         );
 
         return response()->json(['result' => 'Court updated']);
-   }
-
-   public function getAvailableCourts(IndexCourtRequest $request){
-
-    try {
-        $availableReservations =  $this->availablesCourtUseCase->execute(
-
-            $request->input('date'),
-            $request->input('member_id'),
-            $request->input('sport_id'),
-        );
-        return response()->json(['result' => $availableReservations, 200]);
-    } catch (MaxDailyReservationsExceededException $e) {
-        return response()->json(['error' => $e->getMessage()], 422);
     }
-   }
 
+    public function getAvailableCourts(IndexCourtRequest $request)
+    {
 
+        try {
+              $availableReservations =  $this->availablesCourtUseCase->execute(
+                  $request->input('date'),
+                  $request->input('member_id'),
+                  $request->input('sport_id'),
+              );
+              return response()->json(['result' => $availableReservations, 200]);
+        } catch (MaxDailyReservationsExceededException $e) {
+             return response()->json(['error' => $e->getMessage()], 422);
+        }
+    }
 }

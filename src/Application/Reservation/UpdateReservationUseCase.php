@@ -23,25 +23,33 @@ final class UpdateReservationUseCase
     {
         // Validate hours
         $correctTime = $this->verifyHours($start_time, $end_time);
-        if(!$correctTime)  throw new MaxTimeBetweenHours();
+        if (!$correctTime) {
+            throw new MaxTimeBetweenHours();
+        }
 
         $exist = $this->repository->verifyDisponibilityCourt($court_id, $start_time, $date);
 
-        if(!$exist) throw new CourtAlreadyBookedException();
+        if (!$exist) {
+            throw new CourtAlreadyBookedException();
+        }
 
         $numberReservations = $this->repository->getNumberReservationsByMember($member_id, $date);
-        if($numberReservations >= 3) throw new MaxDailyReservationsExceededException();
+        if ($numberReservations >= 3) {
+            throw new MaxDailyReservationsExceededException();
+        }
 
         $exist = $this->repository->verifyHourByMember($member_id, $date, $start_time);
-        if($exist) throw new MemberAlreadyHasReservationException();
+        if ($exist) {
+            throw new MemberAlreadyHasReservationException();
+        }
 
         $reservation = ReservationEntity::create(
             $date,
-         $start_time,
-         $end_time,
-         $member_id,
-         $court_id,
-           );
+            $start_time,
+            $end_time,
+            $member_id,
+            $court_id,
+        );
 
         $this->repository->update($id, $reservation);
     }
@@ -54,9 +62,12 @@ final class UpdateReservationUseCase
         return $currentTime->between($startBoundary, $endBoundary);
     }
 
-    public function verifyHours($start_time, $end_time){
+    public function verifyHours($start_time, $end_time)
+    {
         $validateStartTime = $this->verifycorrectTime($start_time);
-        if(!$validateStartTime) throw new HourExceedeedTime();
+        if (!$validateStartTime) {
+            throw new HourExceedeedTime();
+        }
 
         $start = \Carbon\Carbon::createFromTimeString($start_time);
         $end = \Carbon\Carbon::createFromTimeString($end_time);

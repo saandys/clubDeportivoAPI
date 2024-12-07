@@ -21,7 +21,6 @@ class SportEloquentRepository implements ISportRepository
         // Return Domain Sport model
         return new SportEntity(
             $sport->name,
-
         );
     }
 
@@ -55,6 +54,4 @@ class SportEloquentRepository implements ISportRepository
             ->findOrFail($id)
             ->update($data);
     }
-
-
 }

@@ -15,6 +15,5 @@ final class IndexUserUseCase
 
     public function execute()
     {
-
     }
 }

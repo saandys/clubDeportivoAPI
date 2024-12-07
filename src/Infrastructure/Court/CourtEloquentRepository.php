@@ -60,25 +60,25 @@ class CourtEloquentRepository implements ICourtRepository
     public function findFreeCourts($date, $member_id, $sport_id)
     {
        // Obtener las pistas
-       $courts = $this->eloquentModel->where('sport_id', $sport_id)->get();
+        $courts = $this->eloquentModel->where('sport_id', $sport_id)->get();
        // franja de horas diarias
-       $timeSlots = [];
+        $timeSlots = [];
         for ($hour = 8; $hour < 22; $hour++) {
             $timeSlots[] = sprintf('%02d:00:00', $hour);
         }
         $availableCourts=[];
-        foreach($courts as $court)
-        {
+        foreach ($courts as $court) {
             $timeSlotCourt = $timeSlots;
             // Buscar si tiene alguna reserva en ese día
             $hours = Reservation::select('start_time')->where('court_id', $court->id)->where('date', $date)->get();
 
             // Si tiene 3 reservas ese día, no se continua
-            if(count($hours) >= 3) return false;
+            if (count($hours) >= 3) {
+                return false;
+            }
             // Si no, se eliminan de la franja de horas
 
-            foreach($hours as $hour)
-            {
+            foreach ($hours as $hour) {
                 $key = array_search($hour->start_time->toTimeString(), $timeSlotCourt);
                 if ($key !== false) {
                     unset($timeSlotCourt[$key]);
@@ -90,7 +90,6 @@ class CourtEloquentRepository implements ICourtRepository
                     ['availableHours' => $timeSlotCourt]
                 );
             }
-
         }
         return $courtArray;
     }

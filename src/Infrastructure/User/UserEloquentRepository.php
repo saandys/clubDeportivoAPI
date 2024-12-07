@@ -21,7 +21,7 @@ class UserEloquentRepository implements IUserRepository
         // Return Domain User model
         return new UserEntity(
             $user->name,
-           $user->email,
+            $user->email,
             $user->email_verified_at,
             $user->password,
             $user->remember_token
@@ -61,6 +61,4 @@ class UserEloquentRepository implements IUserRepository
             ->findOrFail($id)
             ->update($data);
     }
-
-
 }

@@ -23,7 +23,7 @@ final class StoreCourtUseCase
         $user = CourtEntity::create(
             $name,
             $sport_id
-           );
+        );
 
         $this->repository->save($user);
     }

@@ -18,11 +18,11 @@ final class UpdateUserUseCase
     {
         $user = UserEntity::create(
             $name,
-           $email,
+            $email,
             '',
             $password,
             ''
-           );
+        );
 
         $this->repository->update($id, $user);
     }

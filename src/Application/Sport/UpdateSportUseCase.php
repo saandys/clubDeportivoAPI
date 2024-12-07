@@ -18,7 +18,7 @@ final class UpdateSportUseCase
     {
         $sport = SportEntity::create(
             $name,
-           );
+        );
 
         $this->repository->update($id, $sport);
     }

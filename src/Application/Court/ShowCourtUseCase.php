@@ -15,8 +15,8 @@ final class ShowCourtUseCase
 
     public function execute($id)
     {
-       $user = $this->repository->find($id);
+        $user = $this->repository->find($id);
 
-       return $user;
+        return $user;
     }
 }

@@ -1,7 +1,8 @@
 <?php
 namespace Src\Domain\Entities;
 
-class UserEntity {
+class UserEntity
+{
 
     protected $id;
 
@@ -18,8 +19,7 @@ class UserEntity {
         string $emailVerifiedDate,
         string $password,
         string $rememberToken
-    )
-    {
+    ) {
         $this->name              = $name;
         $this->email             = $email;
         $this->emailVerifiedDate = $emailVerifiedDate;
@@ -33,8 +33,7 @@ class UserEntity {
         string $emailVerifiedDate,
         string $password,
         string $rememberToken
-    ): UserEntity
-    {
+    ): UserEntity {
         $user = new self($name, $email, $emailVerifiedDate, $password, $rememberToken);
 
         return $user;
@@ -42,41 +41,41 @@ class UserEntity {
 
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
     public function setId($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
-      public function getName()
-      {
-          return $this->name;
-      }
-      public function setName($name)
-      {
-          $this->name = $name;
-          return $this;
-      }
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
-      public function getEmail()
-      {
-          return $this->email;
-      }
-      public function setEmail($email)
-      {
-          $this->email = $email;
-          return $this;
-      }
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
 
-      public function getPassword()
-      {
-          return $this->password;
-      }
-      public function setPassword($password)
-      {
-          $this->password = $password;
-      }
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
 
 
     /**

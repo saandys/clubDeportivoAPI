@@ -27,22 +27,21 @@ class UserController extends Controller
         UpdateUserUseCase $updateUserUseCase,
         IndexUserUseCase $indexUserUseCase,
         DestroyUserUseCase $destroyUserUseCase,
-        )
-    {
+    ) {
         $this->storeUserUseCase = $storeUserUseCase;
         $this->showUserUseCase = $showUserUseCase;
         $this->updateUserUseCase = $updateUserUseCase;
         $this->indexUserUseCase = $indexUserUseCase;
         $this->destroyUserUseCase = $destroyUserUseCase;
-
     }
 
-    public function index(){
+    public function index()
+    {
         dd(4);
     }
 
-   public function register(StoreUserRequest $request)
-   {
+    public function register(StoreUserRequest $request)
+    {
         $this->storeUserUseCase->execute(
             $request->input('name'),
             $request->input('email'),
@@ -50,28 +49,28 @@ class UserController extends Controller
         );
 
         return response()->json(['result' => 'User created']);
-   }
+    }
 
-   public function login(string $id)
-   {
+    public function login(string $id)
+    {
         $user = new UserResource($this->showUserUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'User login', 'data' => $user]);
-   }
+    }
 
-   public function delete(string $id)
-   {
+    public function delete(string $id)
+    {
         $user = new UserResource($this->destroyUserUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'User deleted']);
-   }
+    }
 
-   public function update(UpdateUserRequest $request)
-   {
+    public function update(UpdateUserRequest $request)
+    {
         $this->updateUserUseCase->execute(
             $request->input('id'),
             $request->input('name'),
@@ -80,7 +79,5 @@ class UserController extends Controller
         );
 
         return response()->json(['result' => 'User updated']);
-   }
-
-
+    }
 }

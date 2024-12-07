@@ -1,7 +1,8 @@
 <?php
 namespace Src\Domain\Entities;
 
-class CourtEntity {
+class CourtEntity
+{
 
     protected $id;
 
@@ -12,8 +13,7 @@ class CourtEntity {
     public function __construct(
         string $name,
         string $sport_id
-    )
-    {
+    ) {
         $this->name = $name;
         $this->sport_id = $sport_id;
     }
@@ -21,8 +21,7 @@ class CourtEntity {
     public static function create(
         string $name,
         string $sport_id
-    ): CourtEntity
-    {
+    ): CourtEntity {
         $court = new self($name, $sport_id);
 
         return $court;
@@ -30,24 +29,24 @@ class CourtEntity {
 
     public function getId()
     {
-      return $this->id;
+        return $this->id;
     }
     public function setId($id)
     {
-      $this->id = $id;
+        $this->id = $id;
     }
 
-      public function getName()
-      {
-          return $this->name;
-      }
-      public function setName($name)
-      {
-          $this->name = $name;
-          return $this;
-      }
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
-      public function getSport(): string
+    public function getSport(): string
     {
         return $this->sport_id;
     }
@@ -56,5 +55,4 @@ class CourtEntity {
     {
         $this->sport_id = $sport_id;
     }
-
 }

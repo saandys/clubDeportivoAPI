@@ -18,7 +18,7 @@ final class StoreSportUseCase
     {
         $user = SportEntity::create(
             $name,
-           );
+        );
 
         $this->repository->save($user);
     }

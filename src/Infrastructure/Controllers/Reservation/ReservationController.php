@@ -33,18 +33,16 @@ class ReservationController extends Controller
         ShowReservationUseCase $showReservationUseCase,
         UpdateReservationUseCase $updateReservationUseCase,
         DestroyReservationUseCase $destroyReservationUseCase,
-        )
-    {
+    ) {
         $this->indexReservationUseCase = $indexReservationUseCase;
         $this->storeReservationUseCase = $storeReservationUseCase;
         $this->showReservationUseCase = $showReservationUseCase;
         $this->updateReservationUseCase = $updateReservationUseCase;
         $this->destroyReservationUseCase = $destroyReservationUseCase;
-
     }
 
-   public function store(StoreReservationRequest $request)
-   {
+    public function store(StoreReservationRequest $request)
+    {
         try {
             $this->storeReservationUseCase->execute(
                 $request->input('date'),
@@ -69,28 +67,28 @@ class ReservationController extends Controller
             // Manejar errores genéricos
             return response()->json(['error' => 'Ha ocurrido un error inesperado.'], 500);
         }
-   }
+    }
 
-   public function show(string $id)
-   {
+    public function show(string $id)
+    {
         $reservation = new ReservationResource($this->showReservationUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Reservation login', 'data' => $reservation]);
-   }
+    }
 
-   public function destroy(string $id)
-   {
+    public function destroy(string $id)
+    {
         $reservation = new ReservationResource($this->destroyReservationUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Reservation deleted']);
-   }
+    }
 
-   public function update(UpdateReservationRequest $request)
-   {
+    public function update(UpdateReservationRequest $request)
+    {
         try {
             $this->updateReservationUseCase->execute(
                 $request->input('id'),
@@ -116,17 +114,15 @@ class ReservationController extends Controller
             // Manejar errores genéricos
             return response()->json(['error' => 'Ha ocurrido un error inesperado.'], 500);
         }
-   }
+    }
 
-   public function indexDay(IndexReservationRequest $request)
-   {
+    public function indexDay(IndexReservationRequest $request)
+    {
         $data = $this->indexReservationUseCase->execute(
             $request->input('date'),
         );
 
         return response()->json(['result' => 'Reservation updated',
         'data' => $data]);
-   }
-
-
+    }
 }

@@ -25,51 +25,47 @@ class SportController extends Controller
         ShowSportUseCase $showSportUseCase,
         UpdateSportUseCase $updateSportUseCase,
         DestroySportUseCase $destroySportUseCase,
-        )
-    {
+    ) {
         $this->storeSportUseCase = $storeSportUseCase;
         $this->showSportUseCase = $showSportUseCase;
         $this->updateSportUseCase = $updateSportUseCase;
         $this->destroySportUseCase = $destroySportUseCase;
-
     }
 
-   public function store(StoreSportRequest $request)
-   {
+    public function store(StoreSportRequest $request)
+    {
         $this->storeSportUseCase->execute(
             $request->input('name'),
         );
 
         return response()->json(['result' => 'Sport created']);
-   }
+    }
 
-   public function show(string $id)
-   {
+    public function show(string $id)
+    {
         $sport = new SportResource($this->showSportUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Sport login', 'data' => $sport]);
-   }
+    }
 
-   public function destroy(string $id)
-   {
+    public function destroy(string $id)
+    {
         $sport = new SportResource($this->destroySportUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Sport deleted']);
-   }
+    }
 
-   public function update(UpdateSportRequest $request)
-   {
+    public function update(UpdateSportRequest $request)
+    {
         $this->updateSportUseCase->execute(
             $request->input('id'),
             $request->input('name'),
         );
 
         return response()->json(['result' => 'Sport updated']);
-   }
-
-
+    }
 }

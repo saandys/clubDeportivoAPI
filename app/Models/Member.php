@@ -20,5 +20,4 @@ class Member extends Model
          'email',
          'phone',
      ];
-
 }

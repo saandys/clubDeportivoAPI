@@ -25,18 +25,16 @@ class MemberController extends Controller
         ShowMemberUseCase $showMemberUseCase,
         UpdateMemberUseCase $updateMemberUseCase,
         DestroyMemberUseCase $destroyMemberUseCase,
-        )
-    {
+    ) {
         $this->storeMemberUseCase = $storeMemberUseCase;
         $this->showMemberUseCase = $showMemberUseCase;
         $this->updateMemberUseCase = $updateMemberUseCase;
         $this->destroyMemberUseCase = $destroyMemberUseCase;
-
     }
 
 
-   public function store(StoreMemberRequest $request)
-   {
+    public function store(StoreMemberRequest $request)
+    {
         $this->storeMemberUseCase->execute(
             $request->input('name'),
             $request->input('email'),
@@ -44,28 +42,28 @@ class MemberController extends Controller
         );
 
         return response()->json(['result' => 'Member created']);
-   }
+    }
 
-   public function show(string $id)
-   {
+    public function show(string $id)
+    {
         $member = new MemberResource($this->showMemberUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Member show', 'data' => $member]);
-   }
+    }
 
-   public function destroy(string $id)
-   {
+    public function destroy(string $id)
+    {
         $member = new MemberResource($this->destroyMemberUseCase->execute(
             $id
         ));
 
         return response()->json(['result' => 'Member deleted']);
-   }
+    }
 
-   public function update(UpdateMemberRequest $request)
-   {
+    public function update(UpdateMemberRequest $request)
+    {
         $this->updateMemberUseCase->execute(
             $request->input('id'),
             $request->input('name'),
@@ -74,7 +72,5 @@ class MemberController extends Controller
         );
 
         return response()->json(['result' => 'Member updated']);
-   }
-
-
+    }
 }
