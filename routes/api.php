@@ -15,14 +15,6 @@ Route::prefix('v1')->group(function () {
     Route::post('register', [UserController::class, 'register'])->name('v1.auth.register');
     Route::post('login', [UserController::class, 'login'])->name('v1.auth.login');
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('user/{user}', [UserController::class, 'show'])->name('v1.user.show');
-        Route::post('user/update/{user}', [UserController::class, 'update'])->name('v1.user.update');
-        Route::delete('user/delete/{user}', [UserController::class, 'delete'])->name('v1.user.delete');
-
-    });
-
-
     Route::middleware(['auth:sanctum'])->resource('user', UserController::class)->names([
 
         'index' => 'v1.user.index',

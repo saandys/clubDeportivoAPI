@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Request\User\V1;
+namespace App\Http\Request\User;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
             'email' => [
                 'nullable',
                 'email',
-                Rule::unique('users', 'email'), // Verifica que el email sea único
+                'exists:users,email'
             ],
             'password' => 'required|min:6',
             'name' => 'required|string|max:100',

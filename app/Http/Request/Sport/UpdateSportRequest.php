@@ -26,7 +26,6 @@ class UpdateSportRequest extends FormRequest
     {
 
         return [
-            'id' => 'required|numeric',
             'name' => 'required|string|max:100',
         ];
     }

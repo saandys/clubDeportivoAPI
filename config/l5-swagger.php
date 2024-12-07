@@ -2,10 +2,11 @@
 
 return [
     'default' => 'default',
+
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'Club Deportivo API',
             ],
 
             'routes' => [
@@ -44,7 +45,7 @@ return [
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
                 'annotations' => [
-                    base_path('app'),
+                    base_path('Src/Infrastructure/V1/Controllers'),
                 ],
             ],
         ],
@@ -207,14 +208,14 @@ return [
                             "scopes" => []
                         ],
                     ],
-                ],
+                ],*/
                 'sanctum' => [ // Unique name of security
                     'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'Enter token in format (Bearer <token>)',
                     'name' => 'Authorization', // The name of the header or query parameter to be used.
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],
-                */
+
             ],
             'security' => [
                 /*

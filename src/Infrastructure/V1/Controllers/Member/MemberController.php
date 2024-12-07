@@ -21,12 +21,11 @@ class MemberController extends Controller
     private UpdateMemberUseCase $updateMemberUseCase;
     private DestroyMemberUseCase $destroyMemberUseCase;
 
-    // Inyección de dependencias a través del constructor
     public function __construct(
         StoreMemberUseCase $storeMemberUseCase,
         ShowMemberUseCase $showMemberUseCase,
         UpdateMemberUseCase $updateMemberUseCase,
-        DestroyMemberUseCase $destroyMemberUseCase,
+        DestroyMemberUseCase $destroyMemberUseCase
     ) {
         $this->storeMemberUseCase = $storeMemberUseCase;
         $this->showMemberUseCase = $showMemberUseCase;
@@ -34,7 +33,28 @@ class MemberController extends Controller
         $this->destroyMemberUseCase = $destroyMemberUseCase;
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/v1/member",
+     *     summary="Crear un socio",
+     *     tags={"Member"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Sandra Montero"),
+     *             @OA\Property(property="email", type="string", example="sandra1@gmail.com"),
+     *             @OA\Property(property="phone", type="string", example="1234567890")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Socio creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="result", type="string", example="Member created")
+     *         )
+     *     )
+     * )
+     */
     public function store(StoreMemberRequest $request)
     {
         $this->storeMemberUseCase->execute(
@@ -43,15 +63,39 @@ class MemberController extends Controller
             $request->input('phone')
         );
 
-        return response()->json(['result' => 'Member created']);
+        return response()->json(['result' => 'Member created'], 200);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/member/{id}",
+     *     summary="Obtener detalles de un socio",
+     *     tags={"Member"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del socio",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles del socio",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="result", type="string", example="Member show"),
+     *             @OA\Property(property="data", type="object", example={"name": "John Doe", "email": "sandra1@gmail.com", "phone": "1234567890"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Socio no encontrado"
+     *     )
+     * )
+     */
     public function show(string $id)
     {
-        try{
-            $member = new MemberResource($this->showMemberUseCase->execute(
-                $id
-            ));
+        try {
+            $member = new MemberResource($this->showMemberUseCase->execute($id));
         } catch (NotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         }
@@ -59,18 +103,70 @@ class MemberController extends Controller
         return response()->json(['result' => 'Member show', 'data' => $member], 200);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/member/{id}",
+     *     summary="Eliminar un socio",
+     *     tags={"Member"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del socio",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Socio eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="result", type="string", example="Member deleted")
+     *         )
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
-        $member = new MemberResource($this->destroyMemberUseCase->execute(
-            $id
-        ));
+        $this->destroyMemberUseCase->execute($id);
 
         return response()->json(['result' => 'Member deleted'], 200);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/v1/member/{id}",
+     *     summary="Actualizar un socio",
+     *     tags={"Member"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del socio",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="Jane Montero"),
+     *             @OA\Property(property="email", type="string", example="sandra@example.com"),
+     *             @OA\Property(property="phone", type="string", example="0987654321")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Socio actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="result", type="string", example="Member updated")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error al actualizar el socio"
+     *     )
+     * )
+     */
     public function update(UpdateMemberRequest $request, string $id)
     {
-        try{
+        try {
             $this->updateMemberUseCase->execute(
                 $id,
                 $request->input('name'),
@@ -79,10 +175,8 @@ class MemberController extends Controller
             );
 
             return response()->json(['result' => 'Member updated'], 200);
-        }
-        catch(Exception $e)
-        {
-            return response()->json(['result' => 'Ha ocurrido un error'], 422);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Ha ocurrido un error'], 422);
         }
     }
 }
