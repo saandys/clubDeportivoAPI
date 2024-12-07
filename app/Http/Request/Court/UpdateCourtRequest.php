@@ -26,8 +26,8 @@ class UpdateCourtRequest extends FormRequest
     {
 
         return [
-            'id' => 'required|numeric',
             'name' => 'required|string|max:100',
+            'sport_id' => 'required|numeric|exists:sports,id',
         ];
     }
 

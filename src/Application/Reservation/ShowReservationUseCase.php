@@ -3,6 +3,7 @@
 namespace Src\Application\Reservation;
 
 use Src\Domain\Repositories\IReservationRepository;
+use Src\Infrastructure\Exceptions\NotFoundException;
 
 final class ShowReservationUseCase
 {
@@ -13,10 +14,13 @@ final class ShowReservationUseCase
         $this->repository = $repository;
     }
 
-    public function execute($id)
+    public function execute(string $id)
     {
-        $user = $this->repository->find($id);
-
-        return $user;
+        $reservation = $this->repository->find($id);
+        if(!$reservation)
+        {
+            throw new NotFoundException();
+        }
+        return $reservation;
     }
 }

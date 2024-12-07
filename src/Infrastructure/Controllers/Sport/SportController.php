@@ -1,6 +1,7 @@
 <?php
 namespace Src\Infrastructure\Controllers\Sport;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Resources\SportResource;
@@ -11,6 +12,7 @@ use App\Http\Request\Sport\StoreSportRequest;
 use Src\Application\Sport\UpdateSportUseCase;
 use App\Http\Request\Sport\UpdateSportRequest;
 use Src\Application\Sport\DestroySportUseCase;
+use Src\Infrastructure\Exceptions\NotFoundException;
 
 class SportController extends Controller
 {
@@ -43,9 +45,14 @@ class SportController extends Controller
 
     public function show(string $id)
     {
-        $sport = new SportResource($this->showSportUseCase->execute(
-            $id
-        ));
+        try{
+            $sport = new SportResource($this->showSportUseCase->execute(
+                $id
+            ));
+        } catch (NotFoundException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+
 
         return response()->json(['result' => 'Sport login', 'data' => $sport], 200);
     }
@@ -59,13 +66,19 @@ class SportController extends Controller
         return response()->json(['result' => 'Sport deleted'], 200);
     }
 
-    public function update(UpdateSportRequest $request)
+    public function update(UpdateSportRequest $request, string $id)
     {
-        $this->updateSportUseCase->execute(
-            $request->input('id'),
-            $request->input('name'),
-        );
+        try{
+            $this->updateSportUseCase->execute(
+                $id,
+                $request->input('name'),
+            );
 
-        return response()->json(['result' => 'Sport updated'], 200);
+            return response()->json(['result' => 'Sport updated'], 200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json(['result' => 'Ha ocurrido un error'], 422);
+        }
     }
 }

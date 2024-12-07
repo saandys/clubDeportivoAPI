@@ -3,6 +3,7 @@
 namespace Src\Application\Court;
 
 use Src\Domain\Repositories\ICourtRepository;
+use Src\Infrastructure\Exceptions\NotFoundException;
 
 final class ShowCourtUseCase
 {
@@ -13,10 +14,13 @@ final class ShowCourtUseCase
         $this->repository = $repository;
     }
 
-    public function execute($id)
+    public function execute(string $id)
     {
-        $user = $this->repository->find($id);
-
-        return $user;
+        $court = $this->repository->find($id);
+        if(!$court)
+        {
+            throw new NotFoundException();
+        }
+        return $court;
     }
 }

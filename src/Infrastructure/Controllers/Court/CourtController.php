@@ -1,6 +1,7 @@
 <?php
 namespace Src\Infrastructure\Controllers\Court;
 
+use Exception;
 use Illuminate\Routing\Controller;
 use App\Http\Resources\CourtResource;
 use Src\Application\Court\ShowCourtUseCase;
@@ -12,6 +13,7 @@ use Src\Application\Court\UpdateCourtUseCase;
 use App\Http\Request\Court\UpdateCourtRequest;
 use Src\Application\Court\DestroyCourtUseCase;
 use Src\Application\Court\AvailablesCourtUseCase;
+use Src\Infrastructure\Exceptions\NotFoundException;
 use Src\Infrastructure\Exceptions\MaxDailyReservationsExceededException;
 
 class CourtController extends Controller
@@ -50,9 +52,13 @@ class CourtController extends Controller
 
     public function show(string $id)
     {
-        $court = new CourtResource($this->showCourtUseCase->execute(
-            $id
-        ));
+        try{
+            $court = new CourtResource($this->showCourtUseCase->execute(
+                $id
+            ));
+        } catch (NotFoundException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
 
         return response()->json(['result' => 'Court login', 'data' => $court], 200);
     }
@@ -66,15 +72,21 @@ class CourtController extends Controller
         return response()->json(['result' => 'Court deleted'], 200);
     }
 
-    public function update(UpdateCourtRequest $request)
+    public function update(UpdateCourtRequest $request, string $id)
     {
-        $this->updateCourtUseCase->execute(
-            $request->input('id'),
-            $request->input('name'),
-            $request->input('sport_id'),
-        );
+        try{
+            $this->updateCourtUseCase->execute(
+                $id,
+                $request->input('name'),
+                $request->input('sport_id'),
+            );
 
-        return response()->json(['result' => 'Court updated'], 200);
+            return response()->json(['result' => 'Court updated'], 200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json(['result' => 'Ha ocurrido un error'], 422);
+        }
     }
 
     public function getAvailableCourts(IndexCourtRequest $request)

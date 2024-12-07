@@ -13,7 +13,7 @@ final class IndexReservationUseCase
         $this->repository = $repository;
     }
 
-    public function execute($date)
+    public function execute(string $date)
     {
         $reservations = $this->repository->getAllReservationsByDay($date);
 

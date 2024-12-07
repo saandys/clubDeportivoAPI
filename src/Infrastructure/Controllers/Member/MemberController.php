@@ -1,6 +1,7 @@
 <?php
 namespace Src\Infrastructure\Controllers\Member;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Resources\MemberResource;
@@ -11,6 +12,7 @@ use App\Http\Request\Member\StoreMemberRequest;
 use Src\Application\Member\UpdateMemberUseCase;
 use App\Http\Request\Member\UpdateMemberRequest;
 use Src\Application\Member\DestroyMemberUseCase;
+use Src\Infrastructure\Exceptions\NotFoundException;
 
 class MemberController extends Controller
 {
@@ -46,9 +48,13 @@ class MemberController extends Controller
 
     public function show(string $id)
     {
-        $member = new MemberResource($this->showMemberUseCase->execute(
-            $id
-        ));
+        try{
+            $member = new MemberResource($this->showMemberUseCase->execute(
+                $id
+            ));
+        } catch (NotFoundException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
 
         return response()->json(['result' => 'Member show', 'data' => $member], 200);
     }
@@ -62,15 +68,21 @@ class MemberController extends Controller
         return response()->json(['result' => 'Member deleted'], 200);
     }
 
-    public function update(UpdateMemberRequest $request)
+    public function update(UpdateMemberRequest $request, string $id)
     {
-        $this->updateMemberUseCase->execute(
-            $request->input('id'),
-            $request->input('name'),
-            $request->input('email'),
-            $request->input('phone')
-        );
+        try{
+            $this->updateMemberUseCase->execute(
+                $id,
+                $request->input('name'),
+                $request->input('email'),
+                $request->input('phone')
+            );
 
-        return response()->json(['result' => 'Member updated'], 200);
+            return response()->json(['result' => 'Member updated'], 200);
+        }
+        catch(Exception $e)
+        {
+            return response()->json(['result' => 'Ha ocurrido un error'], 422);
+        }
     }
 }

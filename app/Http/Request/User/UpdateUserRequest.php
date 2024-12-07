@@ -26,7 +26,6 @@ class UpdateUserRequest extends FormRequest
     {
 
         return [
-            'id' => 'required|numeric',
             'email' => [
                 'nullable',
                 'email',

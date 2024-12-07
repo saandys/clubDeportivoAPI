@@ -13,7 +13,7 @@ final class DestroyCourtUseCase
         $this->repository = $repository;
     }
 
-    public function execute($id)
+    public function execute(string $id)
     {
         $this->repository->delete($id);
     }

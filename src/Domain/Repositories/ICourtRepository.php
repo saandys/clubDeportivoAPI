@@ -11,6 +11,5 @@ interface ICourtRepository
     public function save(CourtEntity $court): void;
     public function update(string $id, CourtEntity $court): void;
     public function delete(string $id): void;
-    public function findFreeCourts($date, $member_id, $sport_id);
-    //
+    public function findFreeCourts(string $date, string $member_id, string $sport_id) : array;    //
 }

@@ -1,6 +1,7 @@
 <?php namespace Src\Infrastructure\Reservation;
 
 use App\Models\Reservation;
+use Ramsey\Uuid\Type\Integer;
 use Src\Domain\Entities\ReservationEntity;
 use Src\Domain\Repositories\IReservationRepository;
 
@@ -16,7 +17,9 @@ class ReservationEloquentRepository implements IReservationRepository
     public function find(string $id): ?ReservationEntity
     {
         $reservation = $this->eloquentModel->findOrFail($id);
-
+        if(!$reservation){
+            return null;
+        }
         // Return Domain Reservation model
         return new ReservationEntity(
             $reservation->date,
@@ -65,7 +68,7 @@ class ReservationEloquentRepository implements IReservationRepository
             ->update($data);
     }
 
-    public function verifyDisponibilityCourt($court_id, $start_time, $date)
+    public function verifyDisponibilityCourt($court_id, $start_time, $date): bool
     {
         $reservation = $this->eloquentModel->where('court_id', $court_id)
             ->where('start_time', $start_time)
@@ -77,14 +80,14 @@ class ReservationEloquentRepository implements IReservationRepository
         return true;
     }
 
-    public function getNumberReservationsByMember($member_id, $date)
+    public function getNumberReservationsByMember($member_id, $date) : mixed
     {
         $number = $this->eloquentModel->where('member_id', $member_id)
             ->where('date', $date)->get()->count();
         return $number;
     }
 
-    public function verifyHourByMember($member_id, $date, $start_time)
+    public function verifyHourByMember($member_id, $date, $start_time): bool
     {
         $exist = $this->eloquentModel->where('member_id', $member_id)
             ->where('date', $date)
@@ -96,7 +99,7 @@ class ReservationEloquentRepository implements IReservationRepository
         return true;
     }
 
-    public function getAllReservationsByDay($date)
+    public function getAllReservationsByDay($date): mixed
     {
         $reservations = $this->eloquentModel
         ::with(['member', 'court', 'court.sport'])

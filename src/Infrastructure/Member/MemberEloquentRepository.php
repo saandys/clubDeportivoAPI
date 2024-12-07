@@ -17,7 +17,9 @@ class MemberEloquentRepository implements IMemberRepository
     public function find(string $id): ?MemberEntity
     {
         $member = $this->eloquentModel->findOrFail($id);
-
+        if(!$member){
+            return null;
+        }
         // Return Domain Member model
         return new MemberEntity(
             $member->name,

@@ -25,8 +25,6 @@ class UpdateReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|numeric|exists:reservations,id',
-
             'member_id' => 'required|exists:members,id',
             'court_id' => 'required|exists:courts,id',
             'date' => 'required|date|after_or_equal:today',
@@ -44,8 +42,6 @@ class UpdateReservationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => 'El id es obligatorio',
-
            'member_id.required' => 'El ID del miembro es obligatorio.',
             'member_id.exists' => 'El miembro seleccionado no existe.',
 

@@ -3,6 +3,7 @@
 namespace Src\Application\Member;
 
 use Src\Domain\Repositories\IMemberRepository;
+use Src\Infrastructure\Exceptions\NotFoundException;
 
 final class ShowMemberUseCase
 {
@@ -13,10 +14,13 @@ final class ShowMemberUseCase
         $this->repository = $repository;
     }
 
-    public function execute($id)
+    public function execute(string $id)
     {
-        $user = $this->repository->find($id);
-
-        return $user;
+        $member = $this->repository->find($id);
+        if(!$member)
+        {
+            throw new NotFoundException();
+        }
+        return $member;
     }
 }

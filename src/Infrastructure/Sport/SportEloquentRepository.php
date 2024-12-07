@@ -17,7 +17,9 @@ class SportEloquentRepository implements ISportRepository
     public function find(string $id): ?SportEntity
     {
         $sport = $this->eloquentModel->findOrFail($id);
-
+        if(!$sport){
+            return null;
+        }
         // Return Domain Sport model
         return new SportEntity(
             $sport->name,

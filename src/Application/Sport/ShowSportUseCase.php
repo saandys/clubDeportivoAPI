@@ -3,6 +3,7 @@
 namespace Src\Application\Sport;
 
 use Src\Domain\Repositories\ISportRepository;
+use Src\Infrastructure\Exceptions\NotFoundException;
 
 final class ShowSportUseCase
 {
@@ -13,10 +14,13 @@ final class ShowSportUseCase
         $this->repository = $repository;
     }
 
-    public function execute($id)
+    public function execute(string $id)
     {
-        $user = $this->repository->find($id);
-
-        return $user;
+        $sport = $this->repository->find($id);
+        if(!$sport)
+        {
+            throw new NotFoundException();
+        }
+        return $sport;
     }
 }

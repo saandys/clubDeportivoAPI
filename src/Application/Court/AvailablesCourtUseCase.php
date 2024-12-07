@@ -17,7 +17,7 @@ final class AvailablesCourtUseCase
         $this->reservationRepository = $reservationRepository;
     }
 
-    public function execute($date, $member_id, $sport_id)
+    public function execute(string $date, string $member_id, string $sport_id)
     {
         $numberReservations = $this->reservationRepository->getNumberReservationsByMember($member_id, $date);
         if ($numberReservations >= 3) {

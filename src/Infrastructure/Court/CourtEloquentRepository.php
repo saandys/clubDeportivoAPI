@@ -18,7 +18,9 @@ class CourtEloquentRepository implements ICourtRepository
     public function find(string $id): ?CourtEntity
     {
         $court = $this->eloquentModel->findOrFail($id);
-
+        if(!$court){
+            return null;
+        }
         // Return Domain Court model
         return new CourtEntity(
             $court->name,
@@ -57,7 +59,7 @@ class CourtEloquentRepository implements ICourtRepository
             ->update($data);
     }
 
-    public function findFreeCourts($date, $member_id, $sport_id)
+    public function findFreeCourts(string $date, string $member_id, string $sport_id) : array
     {
        // Obtener las pistas
         $courts = $this->eloquentModel->where('sport_id', $sport_id)->get();
@@ -85,12 +87,12 @@ class CourtEloquentRepository implements ICourtRepository
                 }
             }
             if (count($timeSlotCourt) > 0) {
-                $courtArray[] = array_merge(
+                $availableCourts[] = array_merge(
                     $court->toArray(),
                     ['availableHours' => $timeSlotCourt]
                 );
             }
         }
-        return $courtArray;
+        return $availableCourts;
     }
 }

@@ -3,6 +3,7 @@
 namespace Src\Application\User;
 
 use Src\Domain\Repositories\IUserRepository;
+use Src\Infrastructure\Exceptions\NotFoundException;
 
 final class ShowUserUseCase
 {
@@ -13,10 +14,13 @@ final class ShowUserUseCase
         $this->repository = $repository;
     }
 
-    public function execute($id)
+    public function execute(string $id)
     {
         $user = $this->repository->find($id);
-
+        if(!$user)
+        {
+            throw new NotFoundException();
+        }
         return $user;
     }
 }

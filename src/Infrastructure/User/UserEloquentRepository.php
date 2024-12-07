@@ -17,7 +17,9 @@ class UserEloquentRepository implements IUserRepository
     public function find(string $id): ?UserEntity
     {
         $user = $this->eloquentModel->findOrFail($id);
-
+        if(!$user){
+            return null;
+        }
         // Return Domain User model
         return new UserEntity(
             $user->name,

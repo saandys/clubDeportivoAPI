@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Resources\ReservationResource;
 use Src\Infrastructure\Exceptions\HourExceedeedTime;
+use Src\Infrastructure\Exceptions\NotFoundException;
 use Src\Infrastructure\Exceptions\MaxTimeBetweenHours;
 use Src\Application\Reservation\ShowReservationUseCase;
 use Src\Application\Reservation\IndexReservationUseCase;
@@ -71,9 +72,14 @@ class ReservationController extends Controller
 
     public function show(string $id)
     {
-        $reservation = new ReservationResource($this->showReservationUseCase->execute(
-            $id
-        ));
+        try{
+            $reservation = new ReservationResource($this->showReservationUseCase->execute(
+                $id
+            ));
+        } catch (NotFoundException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
+
 
         return response()->json(['result' => 'Reservation login', 'data' => $reservation], 200);
     }
@@ -87,11 +93,11 @@ class ReservationController extends Controller
         return response()->json(['result' => 'Reservation deleted'], 200);
     }
 
-    public function update(UpdateReservationRequest $request)
+    public function update(UpdateReservationRequest $request, string $id)
     {
         try {
             $this->updateReservationUseCase->execute(
-                $request->input('id'),
+                $id,
                 $request->input('date'),
                 $request->input('start_time'),
                 $request->input('end_time'),
