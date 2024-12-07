@@ -8,11 +8,11 @@ class BindingInterfaceServiceProvider extends ServiceProvider
 {
 
     protected $interfaces = [
-        \Src\Domain\Repositories\IUserRepository::class => \Src\Infrastructure\User\UserEloquentRepository::class,
-        \Src\Domain\Repositories\ISportRepository::class => \Src\Infrastructure\Sport\SportEloquentRepository::class,
-        \Src\Domain\Repositories\ICourtRepository::class => \Src\Infrastructure\Court\CourtEloquentRepository::class,
-        \Src\Domain\Repositories\IMemberRepository::class => \Src\Infrastructure\Member\MemberEloquentRepository::class,
-        \Src\Domain\Repositories\IReservationRepository::class => \Src\Infrastructure\Reservation\ReservationEloquentRepository::class,
+        \Src\Domain\V1\Repositories\IUserRepository::class => \Src\Infrastructure\V1\User\UserEloquentRepository::class,
+        \Src\Domain\V1\Repositories\ISportRepository::class => \Src\Infrastructure\V1\Sport\SportEloquentRepository::class,
+        \Src\Domain\V1\Repositories\ICourtRepository::class => \Src\Infrastructure\V1\Court\CourtEloquentRepository::class,
+        \Src\Domain\V1\Repositories\IMemberRepository::class => \Src\Infrastructure\V1\Member\MemberEloquentRepository::class,
+        \Src\Domain\V1\Repositories\IReservationRepository::class => \Src\Infrastructure\V1\Reservation\ReservationEloquentRepository::class,
 
     ];
 
