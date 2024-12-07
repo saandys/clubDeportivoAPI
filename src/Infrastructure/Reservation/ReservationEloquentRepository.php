@@ -66,5 +66,41 @@ class ReservationEloquentRepository implements IReservationRepository
             ->update($data);
     }
 
+    public function verifyDisponibilityCourt($court_id, $start_time, $date)
+    {
+        $reservation = $this->eloquentModel->where('court_id', $court_id)
+            ->where('start_time', $start_time)
+            ->where('date', $date)->first();
+
+        if($reservation) return false;
+        return true;
+    }
+
+    public function getNumberReservationsByMember($member_id, $date)
+    {
+        $number = $this->eloquentModel->where('member_id', $member_id)
+            ->where('date', $date)->get()->count();
+        return $number;
+    }
+
+    public function verifyHourByMember($member_id, $date, $start_time)
+    {
+        $exist = $this->eloquentModel->where('member_id', $member_id)
+            ->where('date', $date)
+            ->where('start_time', $start_time)->first();
+
+        if(!$exist) return false;
+        return true;
+    }
+
+    public function getAllReservationsByDay($date)
+    {
+        $reservations = $this->eloquentModel
+        ::with(['member', 'court', 'court.sport'])
+            ->where('date', $date)
+            ->get();
+
+            return $reservations;
+    }
 
 }

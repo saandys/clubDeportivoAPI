@@ -4,16 +4,23 @@ namespace Src\Infrastructure\Controllers\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Resources\ReservationResource;
+use Src\Infrastructure\Exceptions\HourExceedeedTime;
+use Src\Infrastructure\Exceptions\MaxTimeBetweenHours;
 use Src\Application\Reservation\ShowReservationUseCase;
 use Src\Application\Reservation\IndexReservationUseCase;
 use Src\Application\Reservation\StoreReservationUseCase;
+use App\Http\Request\Reservation\IndexReservationRequest;
 use App\Http\Request\Reservation\StoreReservationRequest;
 use Src\Application\Reservation\UpdateReservationUseCase;
 use App\Http\Request\Reservation\UpdateReservationRequest;
 use Src\Application\Reservation\DestroyReservationUseCase;
+use Src\Infrastructure\Exceptions\CourtAlreadyBookedException;
+use Src\Infrastructure\Exceptions\MemberAlreadyHasReservationException;
+use Src\Infrastructure\Exceptions\MaxDailyReservationsExceededException;
 
 class ReservationController extends Controller
 {
+    private IndexReservationUseCase $indexReservationUseCase;
     private StoreReservationUseCase $storeReservationUseCase;
     private ShowReservationUseCase $showReservationUseCase;
     private UpdateReservationUseCase $updateReservationUseCase;
@@ -21,12 +28,14 @@ class ReservationController extends Controller
 
     // Inyección de dependencias a través del constructor
     public function __construct(
+        IndexReservationUseCase $indexReservationUseCase,
         StoreReservationUseCase $storeReservationUseCase,
         ShowReservationUseCase $showReservationUseCase,
         UpdateReservationUseCase $updateReservationUseCase,
         DestroyReservationUseCase $destroyReservationUseCase,
         )
     {
+        $this->indexReservationUseCase = $indexReservationUseCase;
         $this->storeReservationUseCase = $storeReservationUseCase;
         $this->showReservationUseCase = $showReservationUseCase;
         $this->updateReservationUseCase = $updateReservationUseCase;
@@ -36,15 +45,30 @@ class ReservationController extends Controller
 
    public function store(StoreReservationRequest $request)
    {
-        $this->storeReservationUseCase->execute(
-            $request->input('date'),
-            $request->input('start_time'),
-            $request->input('end_time'),
-            $request->input('member_id'),
-            $request->input('court_id'),
-        );
+        try {
+            $this->storeReservationUseCase->execute(
+                $request->input('date'),
+                $request->input('start_time'),
+                $request->input('end_time'),
+                $request->input('member_id'),
+                $request->input('court_id'),
+            );
 
-        return response()->json(['result' => 'Reservation created']);
+            return response()->json(['result' => 'Reservation created']);
+        } catch (CourtAlreadyBookedException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (MemberAlreadyHasReservationException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (MaxDailyReservationsExceededException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (HourExceedeedTime $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (MaxTimeBetweenHours $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        } catch (\Exception $e) {
+            // Manejar errores genéricos
+            return response()->json(['error' => 'Ha ocurrido un error inesperado.'], 500);
+        }
    }
 
    public function show(string $id)
@@ -77,6 +101,16 @@ class ReservationController extends Controller
         );
 
         return response()->json(['result' => 'Reservation updated']);
+   }
+
+   public function indexDay(IndexReservationRequest $request)
+   {
+        $data = $this->indexReservationUseCase->execute(
+            $request->input('date'),
+        );
+
+        return response()->json(['result' => 'Reservation updated',
+        'data' => $data]);
    }
 
 

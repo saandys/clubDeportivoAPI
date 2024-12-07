@@ -58,10 +58,11 @@ Route::resource('member', MemberController::class)->names([
 ]);
 
 // Reservation
+Route::get('reservation/day/', [ReservationController::class, 'indexDay'])->name('reservation.indexDay');
 
 Route::resource('reservation', ReservationController::class)->names([
-    'show' => 'masters.reservation.show',
-    'store' => 'masters.reservation.store',
-    'update' => 'masters.reservation.update',
-    'destroy' => 'masters.reservation.destroy',
+    'show' => 'reservation.show',
+    'store' => 'reservation.store',
+    'update' => 'reservation.update',
+    'destroy' => 'reservation.destroy',
 ]);

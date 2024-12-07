@@ -24,8 +24,13 @@ class Reservation extends Model
         'end_time' => 'datetime:H:i',
       ];
 
-    public function sport()
+    public function member()
     {
-        return $this->belongsTo(Sport::class);
+        return $this->belongsTo(Member::class);
+    }
+
+    public function court()
+    {
+        return $this->belongsTo(Court::class);
     }
 }
