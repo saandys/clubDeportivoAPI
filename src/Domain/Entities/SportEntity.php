@@ -14,7 +14,7 @@ class SportEntity {
 
     )
     {
-        $this->name              = $name;
+        $this->name = $name;
     }
 
     public static function create(

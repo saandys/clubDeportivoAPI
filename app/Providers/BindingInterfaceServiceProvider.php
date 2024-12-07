@@ -12,6 +12,7 @@ class BindingInterfaceServiceProvider extends ServiceProvider
         \Src\Domain\Repositories\ISportRepository::class => \Src\Infrastructure\Sport\SportEloquentRepository::class,
         \Src\Domain\Repositories\ICourtRepository::class => \Src\Infrastructure\Court\CourtEloquentRepository::class,
         \Src\Domain\Repositories\IMemberRepository::class => \Src\Infrastructure\Member\MemberEloquentRepository::class,
+        \Src\Domain\Repositories\IReservationRepository::class => \Src\Infrastructure\Reservation\ReservationEloquentRepository::class,
 
     ];
 

@@ -4,6 +4,7 @@ use Src\Infrastructure\Controllers\User\UserController;
 use Src\Infrastructure\Controllers\Court\CourtController;
 use Src\Infrastructure\Controllers\Sport\SportController;
 use Src\Infrastructure\Controllers\Member\MemberController;
+use Src\Infrastructure\Controllers\Reservation\ReservationController;
 
 
 // User
@@ -54,4 +55,13 @@ Route::resource('member', MemberController::class)->names([
     'store' => 'masters.member.store',
     'update' => 'masters.member.update',
     'destroy' => 'masters.member.destroy',
+]);
+
+// Reservation
+
+Route::resource('reservation', ReservationController::class)->names([
+    'show' => 'masters.reservation.show',
+    'store' => 'masters.reservation.store',
+    'update' => 'masters.reservation.update',
+    'destroy' => 'masters.reservation.destroy',
 ]);
